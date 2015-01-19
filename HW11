@@ -35,7 +35,7 @@ xdc_focus (receive_aperture, 0, [70*sin(theta) 0 70*cos(theta)]/1000);
 [v, t1]=calc_scat(emit_aperture, receive_aperture, point_position, 1);
 % Store the result
 image_data(1:max(size(v)),i)=v';
-times(i) = t1;
+times(i) = i;
 % Steer in another angle
 theta = theta + d_theta;
 end
