@@ -27,6 +27,7 @@ d_theta=sector/no_lines; % Increment in angle for 90 deg. image
 % Pre-allocate some storage
 image_data=zeros(800,no_lines);
 theta= -sector/2;
+adjusted_data=zeros(10000,50);
 for i=1:no_lines
 % Set the focus for this direction
 xdc_focus (emit_aperture, 0, [70*sin(theta) 0 70*cos(theta)]/1000);
@@ -35,12 +36,15 @@ xdc_focus (receive_aperture, 0, [70*sin(theta) 0 70*cos(theta)]/1000);
 [v, t1]=calc_scat(emit_aperture, receive_aperture, point_position, 1);
 % Store the result
 image_data(1:max(size(v)),i)=v';
-times(i) = i;
+times(i)=t1;
+n(i)=t1*fs;
+adjusted_data(n(i):(n(i)+1187)-1,i)=image_data(:,i);
 % Steer in another angle
 theta = theta + d_theta;
 end
+
 % Here the display of the data is inserted.
-plot(image_data)
- imagesc(20*log10(abs(hilbert(image_data))))
+plot(adjusted_data)
+ imagesc(20*log10(abs(hilbert(adjusted_data))))
  colorbar
- title('Example 1');
+ title('Example 2');
